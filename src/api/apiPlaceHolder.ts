@@ -2,8 +2,12 @@ import axios from "axios";
 
 let instance= axios.create({
     baseURL:'https://jsonplaceholder.typicode.com',
-
+    // withCredentials:true,
+    // headers:{
+    //     'API-KEY':''
+    // }
 })
+
 
 export const apiPlaceHolder={
     get:()=>{
@@ -11,9 +15,9 @@ export const apiPlaceHolder={
     }
 }
 
-export type getPlaceHolderObjectType= {
+export type getPlaceHolderObjectType=  {
     "userId": number,
     "id": number,
-    "title":string,
+    "title": string,
     "body": string
 }

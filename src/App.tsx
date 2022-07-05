@@ -7,12 +7,13 @@ function App() {
     const [posts,SetPosts]=useState<Array<getPlaceHolderObjectType>>([])
 
     useEffect(()=>{
-       apiPlaceHolder.get()
-           .then(res=>{
-               SetPosts(res.data)
-           })
+        apiPlaceHolder.get()
+            .then(res=>{
+                SetPosts(res.data)
+            })
     },[])
     console.log(posts)
+
   return (
       <div className="App">
           {
@@ -30,3 +31,11 @@ function App() {
 }
 
 export default App;
+// const [posts,SetPosts]=useState<Array<getPlaceHolderObjectType>>([])
+//
+// useEffect(()=>{
+//     apiPlaceHolder.get()
+//         .then(res=>{
+//             SetPosts(res.data)
+//         })
+// },[])
