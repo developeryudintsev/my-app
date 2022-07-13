@@ -3,6 +3,7 @@ import {getPlaceHolderObjectType} from "../api/apiPlaceHolder";
 export const intialState:Array<getPlaceHolderObjectType>=[]
 export const JsonPlaceHolderReducer=(state=intialState,action:generalType)=>{
 switch (action.type){
+
     case 'xxx':{
         return state
     }
