@@ -1,17 +1,17 @@
 import {AnyAction, applyMiddleware, combineReducers, legacy_createStore as createStore} from "redux";
-import {jsonPlaceHolderReducer} from "../reducers/jsonPlaceHolderReducer";
-import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk'
+import {jsonPlaceHolderReducer, } from "../reducer/JsonPlaceHolderReducer";
+import thunk, {ThunkAction, ThunkDispatch} from "redux-thunk";
 
-let RootReducer = combineReducers({
-    jphReducer: jsonPlaceHolderReducer
+let RootReducer=combineReducers({
+    jphReducer:jsonPlaceHolderReducer
 })
 
-export type RootReducerType = ReturnType<typeof RootReducer>
+export type RootReducerType= ReturnType<typeof RootReducer>
 
-export let store = createStore(RootReducer,applyMiddleware(thunk))
-export type AppDispatch = ThunkDispatch<RootState, unknown,AnyAction>
+export let store=createStore(RootReducer,applyMiddleware(thunk))
+
 export type RootState = ReturnType<typeof store.getState>
-
+export type AppDispatch = ThunkDispatch<RootState, unknown,AnyAction>
 
 export type AppThunk<ReturnType = void> = ThunkAction<
     ReturnType,
@@ -19,13 +19,3 @@ export type AppThunk<ReturnType = void> = ThunkAction<
     unknown,
     AnyAction
     >
-
-
-// export let store = configureStore({
-//
-//     reducer:{
-//         jphReducer: jsonPlaceHolderReducer
-//     },
-// })
-
-// export type RootState = ReturnType<typeof store.getState>
