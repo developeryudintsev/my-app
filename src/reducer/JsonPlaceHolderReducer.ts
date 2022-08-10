@@ -1,7 +1,7 @@
 import {apiPlaceHolder, getPlaceHolderObjectType} from "../api/apiPlaceHolder";
 import {Dispatch} from "redux";
 
-let initialState: Array<getPlaceHolderObjectType> = [
+export let initialState: Array<getPlaceHolderObjectType> = [
     {
         userId: 0,
         id: 0,
@@ -10,85 +10,59 @@ let initialState: Array<getPlaceHolderObjectType> = [
     }
 ]
 
-
-export const jsonPlaceHolderReducer = (state= initialState, action:tsarType) =>{
-    switch(action.type) {
-        case "GET":{
+export const jsonPlaceHolderReducer = (state = initialState, action: generalType) => {
+    switch (action.type) {
+        case "GET": {
             return [...action.payload.data]
         }
-        default: return state
+        case "DELETE":{
+            return state.filter(el=>el.id!==action.payload.id)
+        }
+        default:
+            return state
     }
 }
 
-type tsarType=getPlaceHolderObjectACType
-type getPlaceHolderObjectACType=ReturnType<typeof getPlaceHolderObjectAC>
-const getPlaceHolderObjectAC=(data:Array<getPlaceHolderObjectType>)=>{
+type generalType = getPlaceHolderObjectACType
+    | deletePlaceHolderACType
+
+type getPlaceHolderObjectACType = ReturnType<typeof getPlaceHolderObjectAC>
+
+const getPlaceHolderObjectAC = (data: Array<getPlaceHolderObjectType>) => {
     return {
-        type:'GET',
+        type: 'GET',
         payload: {
             data
         }
-    }as const
+    } as const
 }
 
-
-export const getPlaceHolderObjectThunk=()=>async(dispatch:Dispatch)=>{
-    try{
-        let result=await apiPlaceHolder.get()
-        console.log(result.data)
+export const getPlaceHolderObjectThunk = () => async (dispatch: Dispatch) => {
+    try {
+        let result = await apiPlaceHolder.get()
         dispatch(getPlaceHolderObjectAC(result.data))
-    }
-    catch {
+    } catch {
         console.log('vse propalo')
     }
 }
 
-// import {apiPlaceHolder, getPlaceHolderObjectType} from "../api/apiPlaceHolder";
-// import {useAppDispatch} from "./../hooks/hooks";
-// import {Dispatch} from "redux";
-//
-//
-// export const intialState:Array<getPlaceHolderObjectType>=[]
-// export const JsonPlaceHolderReducer=(state=intialState,action:generalType)=>{
-// switch (action.type){
-//
-//     case 'GET':{
-//         return [...action.payload.data]
-//     }
-//     default:return state
-// }
-// }
-//
-//
-// type generalType=getACType
-//
-// export type getACType=ReturnType<typeof getPlaceHolderObjectAC>
-//
-// const getPlaceHolderObjectAC=(data:Array<getPlaceHolderObjectType>)=>{
-//     return{
-//         type:'GET',
-//         payload:{
-//             data
-//         }
-//     }as const
-// }
-//
-// export  const getPlaceHolderObjectThunk=()=>async (dispatch:Dispatch)=>{
-//     try{
-//         let result=await apiPlaceHolder.get1()
-//         dispatch(getPlaceHolderObjectAC(result.data))
-//     }catch{
-//         console.log('ggg')
-//     }
-// }
-//
-// // export const getPlaceHolderObjectThunk=()=>async(dispatch:Dispatch)=>{
-// //     try{
-// //         let result=await apiPlaceHolder.get1()
-// //         console.log(result.data)
-// //         dispatch(getPlaceHolderObjectAC(result.data))
-// //     }
-// //     catch {
-// //         console.log('we are having a problem')
-// //     }
-// // }
+type deletePlaceHolderACType = ReturnType<typeof deletePlaceHolderAC>
+
+const deletePlaceHolderAC = (id:number) => {
+    return {
+        type: "DELETE",
+        payload: {
+            id
+        }
+    } as const
+}
+
+export const deletePlaceHolderObjectThunk = (id:number) => async (dispatch: Dispatch) => {
+    try {
+        let res = await apiPlaceHolder.delete(id)
+        console.log(res)
+        dispatch(deletePlaceHolderAC(id))
+    } catch {
+        console.log('Error')
+    }
+}

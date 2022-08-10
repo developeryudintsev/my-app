@@ -12,6 +12,9 @@ let instance= axios.create({
 export const apiPlaceHolder={
     get:()=>{
         return instance.get<Array<getPlaceHolderObjectType>>('/posts')
+    },
+    delete:(id:number)=>{
+        return instance.delete(`/posts/${id}`)
     }
 }
 

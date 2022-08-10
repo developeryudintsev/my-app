@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import {useAppDispatch, useAppSelector} from "./hooks/hooks";
-import {getPlaceHolderObjectThunk} from "./reducer/JsonPlaceHolderReducer";
+import {deletePlaceHolderObjectThunk, getPlaceHolderObjectThunk} from "./reducer/JsonPlaceHolderReducer";
 
 function App() {
     const dispatch=useAppDispatch()
@@ -11,13 +11,16 @@ function App() {
         dispatch(getPlaceHolderObjectThunk())
     },[])
     console.log(posts)
-
+let deleteBtn=(id:number)=>{
+        dispatch(deletePlaceHolderObjectThunk(id))
+}
   return (
       <div className="App">
           {
               posts.map(element=>{
                   return(
                       <div>
+                          <button onClick={()=>deleteBtn(element.id)}>X</button>
                           <span>{element.id}-</span>
                           <span>{element.title}</span>
                       </div>
