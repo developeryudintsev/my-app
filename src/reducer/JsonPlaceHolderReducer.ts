@@ -18,13 +18,17 @@ export const jsonPlaceHolderReducer = (state = initialState, action: generalType
         case "DELETE":{
             return state.filter(el=>el.id!==action.payload.id)
         }
+        case "EDIT-TITLE":{
+            return state.map(el=>el.id===action.payload.data.id?
+                {...el,title:action.payload.data.title,body:action.payload.data.body}:el)
+        }
         default:
             return state
     }
 }
 
 type generalType = getPlaceHolderObjectACType
-    | deletePlaceHolderACType
+    | deletePlaceHolderACType|editTitleACType
 
 type getPlaceHolderObjectACType = ReturnType<typeof getPlaceHolderObjectAC>
 
@@ -64,5 +68,23 @@ export const deletePlaceHolderObjectThunk = (id:number) => async (dispatch: Disp
         dispatch(deletePlaceHolderAC(id))
     } catch {
         console.log('Error')
+    }
+}
+type editTitleACType=ReturnType<typeof editTitleAC>
+const editTitleAC=(data:getPlaceHolderObjectType)=>{
+    return{
+        type:'EDIT-TITLE',
+        payload:{
+            data
+        }
+    }as const
+}
+
+export const updateEditTitleThunk=(titleid:number, newtitle:string)=>async (dispatch:Dispatch)=>{
+    try {
+        let res=await apiPlaceHolder.update(titleid,newtitle)
+        dispatch(editTitleAC(res.data))
+    }catch {
+        console.log('error')
     }
 }
