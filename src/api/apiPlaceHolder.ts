@@ -13,6 +13,9 @@ export const apiPlaceHolder={
     get:()=>{
         return instance.get<Array<getPlaceHolderObjectType>>('/posts')
     },
+    post:(title:string)=>{
+        return instance.post('/posts',{title:title})
+    },
     delete:(id:number)=>{
         return instance.delete(`/posts/${id}`)
     },

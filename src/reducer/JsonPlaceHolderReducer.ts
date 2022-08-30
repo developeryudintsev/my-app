@@ -1,5 +1,7 @@
 import {apiPlaceHolder, getPlaceHolderObjectType} from "../api/apiPlaceHolder";
 import {Dispatch} from "redux";
+import {RootState} from "../store/store";
+import {stat} from "fs";
 
 export let initialState: Array<getPlaceHolderObjectType> = [
     {
@@ -22,13 +24,16 @@ export const jsonPlaceHolderReducer = (state = initialState, action: generalType
             return state.map(el=>el.id===action.payload.data.id?
                 {...el,title:action.payload.data.title,body:action.payload.data.body}:el)
         }
+        case 'POST':{
+            return[action.payload.data,...state]
+        }
         default:
             return state
     }
 }
 
 type generalType = getPlaceHolderObjectACType
-    | deletePlaceHolderACType|editTitleACType
+    | deletePlaceHolderACType|editTitleACType|postPlaceHolderObjectACType
 
 type getPlaceHolderObjectACType = ReturnType<typeof getPlaceHolderObjectAC>
 
@@ -86,5 +91,25 @@ export const updateEditTitleThunk=(titleid:number, newtitle:string)=>async (disp
         dispatch(editTitleAC(res.data))
     }catch {
         console.log('error')
+    }
+}
+
+type postPlaceHolderObjectACType = ReturnType<typeof postPlaceHolderObjectAC>
+
+const postPlaceHolderObjectAC = (data: getPlaceHolderObjectType) => {
+    return {
+        type: "POST",
+        payload: {
+            data
+        }
+    } as const
+}
+
+ export const postPlaceHolderObjectThunk = (title: string) => async (dispatch: Dispatch, getState: () => RootState) => {
+    try {
+        let result = await apiPlaceHolder.post(title)
+        dispatch(postPlaceHolderObjectAC({...result.data, id: getState().jphReducer.length + 1}))
+    } catch {
+        console.log('vse propalo')
     }
 }
