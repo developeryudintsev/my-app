@@ -1,13 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import {useAppDispatch, useAppSelector} from "./hooks/hooks";
-import {
-    deletePlaceHolderObjectThunk,
-    getPlaceHolderObjectThunk,
-    postPlaceHolderObjectThunk,
-} from "./reducer/JsonPlaceHolderReducer";
-import {Input} from "./component/Input";
-import {AddUser} from "./component/AddUser";
+import {deletePlaceHolderObjectThunk, getPlaceHolderObjectThunk} from "./reducer/JsonPlaceHolderReducer";
 
 function App() {
     const dispatch = useAppDispatch()
@@ -17,27 +11,29 @@ function App() {
     useEffect(() => {
         dispatch(getPlaceHolderObjectThunk())
     }, [])
-    console.log(posts)
     let deleteBtn = (id: number) => {
         dispatch(deletePlaceHolderObjectThunk(id))
     }
-const AddButn=(title:string)=>{
-dispatch(postPlaceHolderObjectThunk(title))
-}
+// const AddButn=(title:string)=>{
+// dispatch(postPlaceHolderObjectThunk(title))
+// }
     return (
         <div className="App">
-            <AddUser callBack={AddButn}/>
+            {/*<AddUser callBack={AddButn}/>*/}
             {
                 posts.map(element => {
+                    console.log(element)
                     return (
                         <div>
+
                             <button onClick={() => deleteBtn(element.id)}>X</button>
-                            <span>{element.id}-</span>
-                            {
-                                toggle==element.id
-                                    ? <Input id={element.id} title={element.title} setToglle={setToglle}/>
-                                    :<span onDoubleClick={()=>setToglle(element.id)}>{element.title}</span>
-                            }
+                            <span>{element.id}</span>
+                            <span>-{element.title}</span>
+                            {/*{*/}
+                            {/*    toggle==element.id*/}
+                            {/*        ? <Input id={element.id} title={element.title} setToglle={setToglle}/>*/}
+                            {/*        :<span onDoubleClick={()=>setToglle(element.id)}>{element.title}</span>*/}
+                            {/*}*/}
 
                         </div>
                     )
