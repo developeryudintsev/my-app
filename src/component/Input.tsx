@@ -1,5 +1,6 @@
 import React, {ChangeEvent, useState,KeyboardEvent} from "react";
 import {useAppDispatch} from "../hooks/hooks";
+import {updateEditTitleThunk} from "../reducer/JsonPlaceHolderReducer";
 
 type propsType={
     id:number,
@@ -20,7 +21,7 @@ export const Input=(props:propsType)=>{
     }
 
     const editTitle=(id:number, title:string)=>{
-        // dispatch(updateEditTitleThunk(id, title))
+        dispatch(updateEditTitleThunk(id, title))
     }
 
     let onChangeHendler=(e:ChangeEvent<HTMLInputElement>)=>{

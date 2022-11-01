@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './App.css';
 import {useAppDispatch, useAppSelector} from "./hooks/hooks";
 import {deletePlaceHolderObjectThunk, getPlaceHolderObjectThunk} from "./reducer/JsonPlaceHolderReducer";
+import {Input} from "./component/Input";
 
 function App() {
     const dispatch = useAppDispatch()
@@ -22,18 +23,18 @@ function App() {
             {/*<AddUser callBack={AddButn}/>*/}
             {
                 posts.map(element => {
-                    console.log(element)
                     return (
                         <div>
 
                             <button onClick={() => deleteBtn(element.id)}>X</button>
                             <span>{element.id}</span>
-                            <span>-{element.title}</span>
-                            {/*{*/}
-                            {/*    toggle==element.id*/}
-                            {/*        ? <Input id={element.id} title={element.title} setToglle={setToglle}/>*/}
-                            {/*        :<span onDoubleClick={()=>setToglle(element.id)}>{element.title}</span>*/}
-                            {/*}*/}
+                            <span>-
+                            {
+                                toggle==element.id
+                                    ? <Input id={element.id} title={element.title} setToglle={setToglle}/>
+                                    :<span onDoubleClick={()=>setToglle(element.id)}>{element.title}</span>
+                            }
+                            </span>
 
                         </div>
                     )

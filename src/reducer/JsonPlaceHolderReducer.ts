@@ -24,12 +24,19 @@ const slice=createSlice({
         },
         deletePlaceHolderAC(state,action:PayloadAction<{id:number}>){
             return state.filter(f=>f.id!==action.payload.id)
+        },
+        updatePlaceHolderAC(state,action:PayloadAction<{ body:string, id:number, title:string}>){
+            console.log(action.payload.title)
+            return state.map((el)=>el.id===action.payload.id
+                ?{...el,title:action.payload.title,body:action.payload.body}
+            :el)
         }
+
     }
 })
 
 export const jsonPlaceHolderReducer =slice.reducer
-const {getPlaceHolderObjectAC,deletePlaceHolderAC}=slice.actions
+const {getPlaceHolderObjectAC,deletePlaceHolderAC,updatePlaceHolderAC}=slice.actions
 
 export const getPlaceHolderObjectThunk = () => async (dispatch: Dispatch) => {
     try {
@@ -51,14 +58,14 @@ export const deletePlaceHolderObjectThunk = (id:number) => async (dispatch: Disp
     }
 }
 
-// export const updateEditTitleThunk=(titleid:number, newtitle:string)=>async (dispatch:Dispatch)=>{
-//     try {
-//         let res=await apiPlaceHolder.update(titleid,newtitle)
-//         dispatch(editTitleAC(res.data))
-//     }catch {
-//         console.log('error')
-//     }
-// }
+export const updateEditTitleThunk=(titleid:number, newtitle:string)=>async (dispatch:Dispatch)=>{
+    try {
+        let res=await apiPlaceHolder.update(titleid,newtitle)
+        dispatch(updatePlaceHolderAC(res.data))
+    }catch {
+        console.log('error')
+    }
+}
 //
 //  export const postPlaceHolderObjectThunk = (title: string) => async (dispatch: Dispatch, getState: () => RootState) => {
 //     try {
